@@ -15,6 +15,12 @@ base_dir="$(cd "$1" && pwd)"
 # directory to store assets for test or release
 assets_dir=$base_dir/ci/assets
 
-if [ -f $assets_dir/incubator-index.yaml ]; then
-    mv $assets_dir/incubator-index.yaml $assets_dir/kabanero.yaml
-fi
+# iterate over each asset
+for asset in $assets_dir/*
+do
+    if [[ $asset == *-index.yaml ]]
+    then
+        echo "Removing: $asset"
+        rm $asset
+    fi
+done

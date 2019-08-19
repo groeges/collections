@@ -6,17 +6,12 @@ stack_dir=$2
 stack_version=$3
 repo_name=$4
 index_file=$5
+build=$6
 assets_dir=$base_dir/ci/assets
 stack_id=$(basename $stack_dir)
 collection=$stack_dir/collection.yaml
 
 . $base_dir/ci/env.sh
-
-if [ -z $ASSET_LIST ]; then
-    asset_list="pipelines dashboards deploys"
-else 
-    asset_list=$ASSET_LIST
-fi
 
 build_asset_tar () {
     asset_build=$assets_dir/asset_temp
@@ -157,22 +152,21 @@ then
         fi
         count=$(( $count + 1 ))
     done
-    #echo "Default image name is $default_image"
 
     # for each of the appsody templates we need to update the .appsody_config.yaml
     # file to contain the correct docker image name that is specified for the image
-    for template_dir in $stack_dir/templates/*/
-    do
-        if [ -d $template_dir ]
-        then
-            template_id=$(basename $template_dir)
-            template_archive=$repo_name.$stack_id.v$stack_version.templates.$template_id.tar.gz
-            template_temp=$assets_dir/tar_temp
-            
-            mkdir -p $template_temp
-
-            if [ $build = true ]
+    if [ $build = true ]
+    then
+        for template_dir in $stack_dir/templates/*/
+        do
+            if [ -d $template_dir ]
             then
+                template_id=$(basename $template_dir)
+                template_archive=$repo_name.$stack_id.v$stack_version.templates.$template_id.tar.gz
+                template_temp=$assets_dir/tar_temp
+            
+                mkdir -p $template_temp
+
                 # Update template archives
                 tar -xzf $assets_dir/$template_archive -C $template_temp
                 if [ -f $template_temp/.appsody-config.yaml ]
@@ -183,16 +177,17 @@ then
                 fi
                 tar -czf $assets_dir/$template_archive -C $template_temp .
                 echo -e "--- Updated template archive: $template_archive"
-            fi
         
-            rm -fr $template_temp
-        fi
-    done
+                rm -fr $template_temp
+            fi
+        done
+    fi
+    
     for asset in $asset_list
     do
         asset_type="${asset%?}"
         if [ -d $base_dir/common/$asset ]; then
-            # echo "We have some common $asset to process"
+            #echo "We have some common $asset to process"
             for asset_dir in $base_dir/common/$asset/*/
             do
                 if [ -d $asset_dir ]

@@ -11,3 +11,10 @@ else
         export RELEASE_NAME="$BUILD_ALL"
     fi
 fi
+
+if [ -z $ASSET_LIST ]; then
+    asset_list="pipelines dashboards deploys"
+else 
+    asset_list=$ASSET_LIST
+fi
+
