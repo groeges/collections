@@ -19,7 +19,7 @@ before_install:
 jobs:
   include:
     - stage: non-production 
-      if: tag = /.*-(alpha|beta|rc)\.[0-9]{1,3}$/
+      tag =~ /.*-(alpha|beta|rc).*$/
       env: 
         - IMAGE_REGISTRY_ORG=kabanerobeta
       script: . ./ci/build.sh
