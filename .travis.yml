@@ -20,7 +20,8 @@ jobs:
   include:
     - stage: non-production 
       if: tag = /.*-(alpha|beta|rc)\.[0-9]{1,3}$)/
-      env: IMAGE_REGISTRY_ORG=$IMAGE_REGISTRY_ORGbeta
+      env: 
+        - IMAGE_REGISTRY_ORG=kabanerobeta
       script: . ./ci/build.sh
     - stage: production 
       script: . ./ci/build.sh
