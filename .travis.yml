@@ -15,13 +15,19 @@ branches:
 
 before_install:
     - sudo snap install yq
-
-script:
-  - . ./ci/build.sh
+    
+jobs:
+  include:
+    - stage: non-production 
+      tag ~ .*-(alpha|beta|rc)\.[0-9]{1,3}$)
+      env: IMAGE_REGISTRY_ORG=$IMAGE_REGISTRY_ORGbeta
+      script: . ./ci/build.sh
+    - stage: production 
+      script: . ./ci/build.sh
 
 # note before_deploy will run before each deploy provider
-before_deploy:
-  - . ./ci/release.sh
+#before_deploy:
+#  - . ./ci/release.sh
 
 deploy:
   provider: releases
