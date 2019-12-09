@@ -19,7 +19,7 @@ before_install:
 jobs:
   include:
     - stage: non-production 
-      tag =~ .*-(alpha|beta|rc)\.[0-9]{1,3}$)
+      if: tag =~ .*-(alpha|beta|rc)\.[0-9]{1,3}$)
       env: IMAGE_REGISTRY_ORG=$IMAGE_REGISTRY_ORGbeta
       script: . ./ci/build.sh
     - stage: production 
