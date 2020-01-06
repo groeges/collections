@@ -28,3 +28,12 @@ fi
 if [ -z "${LATEST_RELEASE}" ]; then
     export LATEST_RELEASE=true
 fi
+if [ "$TRAVIS" == "true" ]
+then
+    if [ $TRAVIS_TAG ] && [[ $TRAVIS_TAG =~ ^.*-(alpha|beta|rc)\.[0-9]* ]]
+    then
+        export IMAGE_REGISTRY_USERNAME="${IMAGE_REGISTRY_USERNAME}"beta
+        export IMAGE_REGISTRY_ORG="${IMAGE_REGISTRY_ORG}"beta
+    fi
+fi
+
