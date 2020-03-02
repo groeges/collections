@@ -3,8 +3,12 @@ language: generic
 go:
   - 1.12.x
 
-os: linux
-dist: bionic
+matrix:
+  include:
+  - os: linux
+    dist: bionic
+  - os: windows
+  - os: osx
 
 services:
   - docker
