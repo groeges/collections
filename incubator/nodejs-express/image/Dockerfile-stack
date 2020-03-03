@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/nodejs-10:1-66
+FROM registry.access.redhat.com/ubi8/nodejs-12:1-27
 
 LABEL vendor="Kabanero" \
     name="kabanero/nodejs-express" \
@@ -10,6 +10,7 @@ USER root
 RUN yum install --disableplugin=subscription-manager python2 -y
 RUN ln -s /usr/bin/python2 /usr/bin/python
 
+ENV APPSODY_PROJECT_DIR=/project
 ENV APPSODY_MOUNTS=/:/project/user-app
 ENV APPSODY_DEPS=/project/user-app/node_modules
 
