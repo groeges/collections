@@ -36,6 +36,9 @@ COPY ./LICENSE /licenses/
 COPY ./project /project
 COPY ./config /config
 
+RUN npm install npm@latest
+RUN chown -R default:root "/opt/app-root/src/.npm"
+
 RUN chown -R default:root /project
 WORKDIR /project
 USER default
