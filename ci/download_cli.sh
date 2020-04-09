@@ -40,4 +40,6 @@ then
 
     curl -H "Authorization: token ${GITHUB_READ_TOKEN}" -L -s -o "$cli_dir/$cli_deb" "$cli_dist"
     sudo dpkg -i $cli_dir/$cli_deb
+    
+    appsody version
 fi
